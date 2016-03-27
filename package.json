@@ -13,6 +13,7 @@
   "dependencies": {
     "react": "0.14.x",
     "react-dom": "0.14.x",
+    "redux-api-middleware": "^1.0.1",
     "redux-thunk": "^2.0.1"
   },
   "devDependencies": {
