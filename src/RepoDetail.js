@@ -13,7 +13,7 @@ const RepoDetail = (props) => {
   </div>
   <div style={styles.footer}><a href={props.repo.url}>{props.repo.url}</a></div>
   </div>
-  : <div>Select one!</div>
+  : <div></div>
 }
 
 const styles = {

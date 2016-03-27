@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Repo from './Repo'
 import Avatar from 'material-ui/lib/avatar'
-import { setActiveRepo } from './configureStore'
+import { setActiveRepo } from './actions'
 
 class Repos extends React.Component {
   constructor(props) {
@@ -16,7 +16,10 @@ class Repos extends React.Component {
   }
 
   render() {
-    if (!this.props.allRepos) {
+    if (this.props.isFailed) {
+      return <div>Failed!</div>
+    }
+    if (this.props.isFetching) {
       return <div>loading...</div>
     } else {
       const { active } = this.props
@@ -26,8 +29,9 @@ class Repos extends React.Component {
         <div style={styles.container}>
           <Avatar src="https://avatars2.githubusercontent.com/u/239742?v=3&s=400" />
           <div style={styles.repos}>
-            {this.props.allRepos.map(repo =>
+            {this.props.allRepos.map((repo, index) =>
               <Repo
+                key = {index}
                 handleClick={this.handleClick}
                 active={active===repo}
                 repo={repo}
@@ -37,6 +41,9 @@ class Repos extends React.Component {
           <p style={styles.totalRepos}>
             total repos = {this.props.allRepos && this.props.allRepos.length}
           </p>
+          {this.props.active? <div></div>:
+             <div>Select one!</div>
+          }
         </div>
       )
     }
@@ -58,6 +65,11 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  return { active: state.activeRepo }
+  return {
+    active: state.activeRepo,
+    isFetching: state.isFetching,
+    allRepos: state.allRepos,
+    isFailed: state.isFailed,
+   }
 }
 export default connect(mapStateToProps)(Repos)
