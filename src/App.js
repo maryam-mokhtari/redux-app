@@ -49,7 +49,7 @@ export default class App extends React.Component {
 
 const mapStateToProps = (state)=>{
   console.log("App> state= ",state);
-  return state
+  return state.app
 }
 
 export default connect(mapStateToProps)(App)

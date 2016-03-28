@@ -66,10 +66,10 @@ const styles = {
 
 const mapStateToProps = (state) => {
   return {
-    active: state.activeRepo,
-    isFetching: state.isFetching,
-    allRepos: state.allRepos,
-    isFailed: state.isFailed,
+    active: state.app.activeRepo,
+    isFetching: state.app.isFetching,
+    allRepos: state.app.allRepos,
+    isFailed: state.app.isFailed,
    }
 }
 export default connect(mapStateToProps)(Repos)
