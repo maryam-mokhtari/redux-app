@@ -10,7 +10,7 @@ const setActiveRepo = (repo) => {
 // thunk action creator :: _ -> (dispatch -> _)
 let counter = 1
 const fetchRepos = () => {
-  if (counter++ % 2) {
+  if (!(counter++ % 2)) {
     return { type: ActionTypes.FETCH_REPOS_REQUEST, error: true }
   }
   return {

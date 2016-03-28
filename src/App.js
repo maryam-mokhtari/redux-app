@@ -41,7 +41,7 @@ export default class App extends React.Component {
       allRepos={this.props.allRepos}
       />
       <button onClick={this.handlerRefresh}>Refresh</button>
-      <RepoDetail repo={this.props.activeRepo} />
+      
       </div>
     )
   }

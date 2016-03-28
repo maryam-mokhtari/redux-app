@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Repo from './Repo'
+import { pushState } from 'redux-router'
 import Avatar from 'material-ui/lib/avatar'
+import Repo from './Repo'
 import { setActiveRepo } from './actions'
 
 class Repos extends React.Component {
@@ -13,6 +14,7 @@ class Repos extends React.Component {
 
   handleClick(repo) {
     this.props.dispatch(setActiveRepo(repo))
+    this.props.dispatch(pushState(null, `/repo?id=${repo.id}` , ''))
   }
 
   render() {

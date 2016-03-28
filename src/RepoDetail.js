@@ -1,19 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const RepoDetail = (props) => {
-  console.log("RepoDetail> props=",props);
-  return props.repo?
-  <div style={styles.container}>
-  <h2 style={styles.header}>{props.repo.name}</h2>
-  <div style={styles.main}>
-  <div style={styles.description}>{props.repo.description}</div>
-  <div style={styles.sideBar}>
-  <div style={styles.watcher}>{props.repo.watchers_count}</div>
-  </div>
-  </div>
-  <div style={styles.footer}><a href={props.repo.url}>{props.repo.url}</a></div>
-  </div>
-  : <div></div>
+class RepoDetail extends React.Component {
+    render() {
+      const { repo } = this.props
+    return repo?
+    <div style={styles.container}>
+    <h2 style={styles.header}>{repo.name}</h2>
+    <div style={styles.main}>
+    <div style={styles.description}>{repo.description}</div>
+    <div style={styles.sideBar}>
+    <div style={styles.watcher}>{repo.watchers_count}</div>
+    </div>
+    </div>
+    <div style={styles.footer}><a href={repo.url}>{repo.url}</a></div>
+    </div>
+    : <div>nothing</div>
+  }
 }
 
 const styles = {
@@ -47,4 +50,8 @@ const styles = {
   }
 }
 
-export default  RepoDetail
+export default  connect((state) => {
+  const id = state.router.location.query.id
+  const repo = state.app.allRepos.filter((repo)=>{return id==repo.id})[0]
+  return {repo}
+})(RepoDetail)

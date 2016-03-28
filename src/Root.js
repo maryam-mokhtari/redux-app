@@ -5,12 +5,14 @@ import {ReduxRouter} from 'redux-router'
 import Parent from './Parent'
 import Child from './Child'
 import App from './App'
+import RepoDetail from './RepoDetail'
 import {store} from './configureStore'
 
 const routes = (
   <div>
   <Route path="/Child" component={Child} />
   <Route path="/Parent" component={Parent} />
+  <Route path="/repo" component={RepoDetail} />
   <Route path="/" component={App}>
   </Route>
   </div>
