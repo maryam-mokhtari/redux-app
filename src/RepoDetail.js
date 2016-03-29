@@ -64,11 +64,11 @@ const styles = {
   footer: {
 
   }
-}
+}    
 
 export default  connect((state) => {
   const name = state.router.location.query.name
-  const repo = state.app.allRepos.filter((repo)=>{return name==repo.name})[0]
+  const repo = state.app.allRepos[name]
   const isFetching = state.app.isFetching
   return {repo, name,  isFetching}
 })(RepoDetail)

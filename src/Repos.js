@@ -31,17 +31,18 @@ class Repos extends React.Component {
         <div style={styles.container}>
           <Avatar src="https://avatars2.githubusercontent.com/u/239742?v=3&s=400" />
           <div style={styles.repos}>
-            {this.props.allRepos.map((repo, index) =>
-              <Repo
-                key = {index}
+            {Object.keys(this.props.allRepos).map((key) =>{
+              return <Repo
+                key = {key}
                 handleClick={this.handleClick}
-                active={active===repo}
-                repo={repo}
+                active={active && active.name===key}
+                repo={this.props.allRepos[key]}
               />
+            }
             )}
           </div>
           <p style={styles.totalRepos}>
-            total repos = {this.props.allRepos && this.props.allRepos.length}
+            total repos = {this.props.allRepos && Object.keys(this.props.allRepos).length}
           </p>
           {this.props.active? <div></div>:
              <div>Select one!</div>

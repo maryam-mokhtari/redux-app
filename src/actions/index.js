@@ -26,9 +26,13 @@ const fetchRepos = () => ({
        type: ActionTypes.FETCH_REPOS_SUCCESS,
        payload: (action, state, res) => {
           return res.json()
-         .then((data) => {
-            localStorage.setItem('repos', JSON.stringify(data))
-            return data
+         .then((repos) => {
+            repos = repos.reduce((out, repo) => {
+              out[repo.name] = repo
+              return out
+            }, {})          
+            localStorage.setItem('repos', JSON.stringify(repos))
+            return repos
          })
        }
      },
@@ -45,7 +49,7 @@ const loadRepos = () => {
   // }
   return (dispatch, getState) => {
     const { app:{allRepos} } = getState()
-    if (allRepos.length > 3 || localStorage.getItem('repos')) {
+    if (false && (allRepos.length > 3 || localStorage.getItem('repos'))) {
       return
     } else {
        dispatch(fetchRepos())
