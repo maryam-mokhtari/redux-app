@@ -12,7 +12,7 @@ const routes = (
   <div>
   <Route path="/Child" component={Child} />
   <Route path="/Parent" component={Parent} />
-  <Route path="/repo" component={RepoDetail} />
+  <Route path="repo" component={RepoDetail} />
   <Route path="/" component={App}>
   </Route>
   </div>

@@ -21,6 +21,17 @@ export default (state = initialState, action) => {
         return Object.assign({}, state, {isFetching: true})
     case ActionTypes.FETCH_REPOS_FAILURE:
       return Object.assign({}, state, {isFetching: false, isFailed: true})
+
+    case ActionTypes.FETCH_REPO_SUCCESS:
+      return Object.assign({}, state, {isFetching: false, allRepos: [...state.allRepos, action.payload]})
+    case ActionTypes.FETCH_REPO_REQUEST:
+      if (action.error)
+        return Object.assign({}, state, {isFetching: false, isNetworkFailed: true})
+      else
+        return Object.assign({}, state, {isFetching: true})
+    case ActionTypes.FETCH_REPO_FAILURE:
+      return Object.assign({}, state, {isFetching: false, isFailed: true})
+
     case ActionTypes.CLOSE_NETWORK_ALERT:
       return Object.assign({}, state, {isNetworkFailed: false})
     //return {...state, {activeRepo: action.repo}}

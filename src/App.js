@@ -2,12 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Repos from './Repos'
 import RepoDetail from './RepoDetail'
-import { setActiveRepo, fetchRepos } from './actions'
+import { setActiveRepo, loadRepos, fetchRepos } from './actions'
 import Alert from './Alert'
-
-const loadRepos = (props) => {
-  props.dispatch(fetchRepos())
-}
 
 export default class App extends React.Component {
 
@@ -16,23 +12,15 @@ export default class App extends React.Component {
     this.state = {}
     this.handlerRefresh = this.handlerRefresh.bind(this)
   }
-  //
+  
   componentDidMount() {
-    loadRepos(this.props)
-    //   fetch('https://api.github.com/users/petehunt/repos?per_page=5')
-    //   .then(res=> res.json())
-    //   .then(res=>
-    //     // { this.setState({myRepos: res}) }
-    //     this.props.dispatch(setAllRepos(res))
-    //   )
-    //
+    this.props.dispatch(loadRepos())
   }
   handlerRefresh() {
-    loadRepos(this.props)
+    this.props.dispatch(fetchRepos())
   }
   render() {
     console.log("App> render> props=", this.props);
-
 
     return (
       <div>
@@ -41,7 +29,7 @@ export default class App extends React.Component {
       allRepos={this.props.allRepos}
       />
       <button onClick={this.handlerRefresh}>Refresh</button>
-      
+
       </div>
     )
   }

@@ -14,7 +14,7 @@ class Repos extends React.Component {
 
   handleClick(repo) {
     this.props.dispatch(setActiveRepo(repo))
-    this.props.dispatch(pushState(null, `/repo?id=${repo.id}` , ''))
+    this.props.dispatch(pushState(null, `/repo?name=${repo.name}` , ''))
   }
 
   render() {
