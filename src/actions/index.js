@@ -16,23 +16,25 @@ const fetchRepo = (name) => ({
     ]
   }
 })
-const fetchRepos = () => ({
+
+const fetchRepos = (nextPage) => ({
  [CALL_API]: {
-   endpoint: 'https://api.github.com/users/petehunt/repos?per_page=5',
+   endpoint: nextPage,
    method: 'GET',
    types: [
      ActionTypes.FETCH_REPOS_REQUEST,
      {
        type: ActionTypes.FETCH_REPOS_SUCCESS,
        payload: (action, state, res) => {
+          const nextPage = res.headers.get('Link').match(/<(.*)>; rel="next"/)[1]
           return res.json()
          .then((repos) => {
             repos = repos.reduce((out, repo) => {
               out[repo.name] = repo
               return out
-            }, {})          
+            }, {})
             localStorage.setItem('repos', JSON.stringify(repos))
-            return repos
+            return { repos, nextPage }
          })
        }
      },
@@ -48,12 +50,8 @@ const loadRepos = () => {
   //   return { type: ActionTypes.FETCH_REPOS_REQUEST, error: true }
   // }
   return (dispatch, getState) => {
-    const { app:{allRepos} } = getState()
-    if (false && (allRepos.length > 3 || localStorage.getItem('repos'))) {
-      return
-    } else {
-       dispatch(fetchRepos())
-    }
+    const { app: {nextPage} } = getState()
+       dispatch(fetchRepos(nextPage))
   }
 }
 

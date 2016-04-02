@@ -6,6 +6,7 @@ const initialState = {
   isFetching: false,
   isFailed: false,
   isNetworkFailed: false,
+  nextPage: 'https://api.github.com/users/petehunt/repos?per_page=5',
 }
 
 export default (state = initialState, action) => {
@@ -13,7 +14,11 @@ export default (state = initialState, action) => {
     case ActionTypes.SET_ACTIVE_REPO:
       return Object.assign({},state, {activeRepo: action.payload})
     case ActionTypes.FETCH_REPOS_SUCCESS:
-      return Object.assign({}, state, {isFetching: false, allRepos: action.payload})
+      return Object.assign({}, state, {
+        isFetching: false,
+        allRepos: Object.assign({}, state.allRepos, action.payload.repos),
+        nextPage: action.payload.nextPage
+      })
     case ActionTypes.FETCH_REPOS_REQUEST:
       if (action.error)
         return Object.assign({}, state, {isFetching: false, isNetworkFailed: true})

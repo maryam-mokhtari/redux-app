@@ -11,13 +11,17 @@ export default class App extends React.Component {
     super(props)
     this.state = {}
     this.handlerRefresh = this.handlerRefresh.bind(this)
+    this.handlerLoadMore=this.handlerLoadMore.bind(this)
   }
-  
+
   componentDidMount() {
     this.props.dispatch(loadRepos())
   }
   handlerRefresh() {
-    this.props.dispatch(fetchRepos())
+    this.props.dispatch(loadRepos())
+  }
+  handlerLoadMore() {
+    this.props.dispatch(loadRepos())
   }
   render() {
     console.log("App> render> props=", this.props);
@@ -26,10 +30,10 @@ export default class App extends React.Component {
       <div>
       <Alert isNetworkFailed={this.props.isNetworkFailed} dispatch={this.props.dispatch}/>
       <Repos
-      allRepos={this.props.allRepos}
+        allRepos={this.props.allRepos}
       />
       <button onClick={this.handlerRefresh}>Refresh</button>
-
+      <button onClick={this.handlerLoadMore}>Load More</button>
       </div>
     )
   }

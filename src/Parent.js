@@ -2,10 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pushState } from 'redux-router'
 
-const handleClick = (dispatch) => {
-  return () => dispatch(pushState(null, '/Child?id=1' , ''))
-}
 class Parent extends React.Component {
+
+  handleClick(){
+    this.props.dispatch(pushState(null, '/Child?id=1' , ''))
+  }
 
   render() {
   return (
@@ -13,7 +14,7 @@ class Parent extends React.Component {
       I am Parent!
       <br/>
       <a
-        onClick={handleClick(this.props.dispatch)}
+        onClick={this.handleClick.bind(this)}
         style={{cursor:'pointer'}}>
           Show Child
       </a>

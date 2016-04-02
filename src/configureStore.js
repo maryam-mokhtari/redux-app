@@ -8,7 +8,9 @@ import { routes} from './Root'
 import * as ActionTypes from './actions/actionTypes'
 
 const finalCreateStore = compose(
-  applyMiddleware( apiMiddleware, thunk ),
+  applyMiddleware(
+    apiMiddleware,
+    thunk ),
   reduxReactRouter({
     routes,  createHistory
   }),
@@ -17,12 +19,12 @@ const finalCreateStore = compose(
 const store = finalCreateStore(reducer)
 
 //store.subscribe(()=>{ console.log('Store changed:', store.getState()); })
-if (localStorage.getItem('repos')) {
-  store.dispatch(
-    {
-      type: ActionTypes.FETCH_REPOS_SUCCESS,
-      payload: JSON.parse(localStorage.getItem('repos'))
-    }
-  )
-}
+// if (localStorage.getItem('repos')) {
+//   store.dispatch(
+//     {
+//       type: ActionTypes.FETCH_REPOS_SUCCESS,
+//       payload: JSON.parse(localStorage.getItem('repos'))
+//     }
+//   )
+// }
 export { store }
