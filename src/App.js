@@ -2,26 +2,32 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Repos from './Repos'
 import RepoDetail from './RepoDetail'
-import { setActiveRepo, loadRepos, fetchRepos } from './actions'
+import { setActiveRepo, loadRepos, fetchRepos, showStars, refresh } from './actions'
 import Alert from './Alert'
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    //this.state = {}
     this.handlerRefresh = this.handlerRefresh.bind(this)
     this.handlerLoadMore=this.handlerLoadMore.bind(this)
+    this.handlerShowStars = this.handlerShowStars.bind(this)
   }
 
   componentDidMount() {
-    this.props.dispatch(loadRepos())
+    if (Object.keys(this.props.allRepos).length == 0) {
+      this.props.dispatch(loadRepos())
+    }
   }
   handlerRefresh() {
-    this.props.dispatch(loadRepos())
+    this.props.dispatch(refresh())
   }
   handlerLoadMore() {
     this.props.dispatch(loadRepos())
+  }
+  handlerShowStars() {
+    this.props.dispatch(showStars())
   }
   render() {
     console.log("App> render> props=", this.props);
@@ -34,6 +40,7 @@ export default class App extends React.Component {
       />
       <button onClick={this.handlerRefresh}>Refresh</button>
       <button onClick={this.handlerLoadMore}>Load More</button>
+      <button onClick={this.handlerShowStars}>Show Stars</button>
       </div>
     )
   }
@@ -41,7 +48,9 @@ export default class App extends React.Component {
 
 const mapStateToProps = (state)=>{
   console.log("App> state= ",state);
-  return state.app
+  const { allRepos, isNetworkFailed} = state.app
+
+  return { allRepos, isNetworkFailed}
 }
 
 export default connect(mapStateToProps)(App)

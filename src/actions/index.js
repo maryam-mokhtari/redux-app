@@ -5,6 +5,7 @@ import { CALL_API } from 'redux-api-middleware'
 const setActiveRepo = (repo) => {
   return { type: ActionTypes.SET_ACTIVE_REPO , payload: repo }
 }
+
 const fetchRepo = (name) => ({
   [CALL_API] : {
     endpoint: `https://api.github.com/repos/petehunt/${name}`,
@@ -43,16 +44,28 @@ const fetchRepos = (nextPage) => ({
  }
 })
 
-// thunk action creator :: _ -> (dispatch -> _)
-// let counter = 1
+const refresh = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: ActionTypes.REFRESH })
+    dispatch(loadRepos())
+  }
+}
+
 const loadRepos = () => {
-  // if (!(counter++ % 2)) {
-  //   return { type: ActionTypes.FETCH_REPOS_REQUEST, error: true }
-  // }
   return (dispatch, getState) => {
     const { app: {nextPage} } = getState()
        dispatch(fetchRepos(nextPage))
   }
 }
 
-export { setActiveRepo, fetchRepos, loadRepos, fetchRepo }
+const showStars = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: ActionTypes.SHOW_STARS})
+    setTimeout(() => {
+      dispatch({ type: ActionTypes.HIDE_STARS})
+      }
+      , 2000)
+  }
+}
+
+export { setActiveRepo, fetchRepos, loadRepos, showStars, fetchRepo, refresh }

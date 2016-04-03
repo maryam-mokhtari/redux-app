@@ -1,5 +1,8 @@
 // action type
 export const SET_ACTIVE_REPO = 'SET_ACTIVE_REPO'
+export const REFRESH = 'REFRESH'
+export const SHOW_STARS = 'SHOW_STARS'
+export const HIDE_STARS = 'HIDE_STARS'
 
 export const FETCH_REPOS_SUCCESS = 'FETCH_REPOS_SUCCESS'
 export const FETCH_REPOS_REQUEST = 'FETCH_REPOS_REQUEST'

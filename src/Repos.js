@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { pushState } from 'redux-router'
@@ -8,7 +9,7 @@ import { setActiveRepo } from './actions'
 class Repos extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    //this.state = {}
     this.handleClick = this.handleClick.bind(this)
   }
 
@@ -24,23 +25,22 @@ class Repos extends React.Component {
       const { active } = this.props
       // const active = this.props.active
       return (
-
         <div style={styles.container}>
           <Avatar src="https://avatars2.githubusercontent.com/u/239742?v=3&s=400" />
-
-
           <div style={styles.repos}>
             {Object.keys(this.props.allRepos).map((key) =>{
               return <Repo
                 key = {key}
                 handleClick={this.handleClick}
                 active={active && active.name===key}
+                shouldStarsShown={this.props.shouldStarsShown}
                 repo={this.props.allRepos[key]}
+                maxRepoStars={this.props.maxRepoStars}
               />
             }
             )}
           </div>
-            {(this.props.isFetching)? <div>loading...</div>: <div/>} 
+            {(this.props.isFetching)? <div>loading...</div>: <div/>}
           <p style={styles.totalRepos}>
             total repos = {this.props.allRepos && Object.keys(this.props.allRepos).length}
           </p>
@@ -68,11 +68,10 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    active: state.app.activeRepo,
-    isFetching: state.app.isFetching,
-    allRepos: state.app.allRepos,
-    isFailed: state.app.isFailed,
-   }
+  const { active, isFetching, shouldStarsShown, allRepos, isFailed } = state.app
+  const maxRepoStars = Object.keys(allRepos).reduce((memo, key) => {
+    return allRepos[key].stargazers_count > memo? allRepos[key].stargazers_count:memo
+  }, 0)
+  return { active, isFetching, shouldStarsShown, allRepos, isFailed, maxRepoStars }
 }
 export default connect(mapStateToProps)(Repos)

@@ -1,18 +1,31 @@
 import * as ActionTypes from '../actions/actionTypes'
 
+const NEXT_PAGE = 'https://api.github.com/users/petehunt/repos?per_page=5'
+
 const initialState = {
   activeRepo: null,
   allRepos: {},
   isFetching: false,
   isFailed: false,
   isNetworkFailed: false,
-  nextPage: 'https://api.github.com/users/petehunt/repos?per_page=5',
+  nextPage: NEXT_PAGE,
+  shouldStarsShown: false,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_ACTIVE_REPO:
       return Object.assign({},state, {activeRepo: action.payload})
+    case ActionTypes.SHOW_STARS:
+      return Object.assign({}, state, {shouldStarsShown: true})
+    case ActionTypes.HIDE_STARS:
+      return Object.assign({}, state, {shouldStarsShown: false})
+    case ActionTypes.REFRESH:
+      return Object.assign({}, state, {
+        allRepos: {},
+        activeRepo: null,
+        nextPage: NEXT_PAGE
+      })
     case ActionTypes.FETCH_REPOS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
