@@ -1,16 +1,17 @@
-
+import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { pushState } from 'redux-router'
 import Avatar from 'material-ui/lib/avatar'
-import Repo from './Repo'
+import Repo from './components/Repo'
 import { setActiveRepo } from './actions'
+// import Form from './SimpleForm'
 
 class Repos extends React.Component {
   constructor(props) {
     super(props)
     //this.state = {}
-    this.handleClick = this.handleClick.bind(this)
+    // this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(repo) {
@@ -26,12 +27,13 @@ class Repos extends React.Component {
       // const active = this.props.active
       return (
         <div style={styles.container}>
+
           <Avatar src="https://avatars2.githubusercontent.com/u/239742?v=3&s=400" />
           <div style={styles.repos}>
             {Object.keys(this.props.allRepos).map((key) =>{
               return <Repo
-                key = {key}
-                handleClick={this.handleClick}
+                key={key}
+                handleClick={() => this.handleClick(this.props.allRepos[key])}
                 active={active && active.name===key}
                 shouldStarsShown={this.props.shouldStarsShown}
                 repo={this.props.allRepos[key]}
@@ -57,7 +59,7 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   repos: {
     display: 'flex',
@@ -69,9 +71,9 @@ const styles = {
 
 const mapStateToProps = (state) => {
   const { active, isFetching, shouldStarsShown, allRepos, isFailed } = state.app
-  const maxRepoStars = Object.keys(allRepos).reduce((memo, key) => {
-    return allRepos[key].stargazers_count > memo? allRepos[key].stargazers_count:memo
+  const maxRepoStars = _.map(allRepos).reduce((memo, repo) => {
+    return repo.stargazers_count > memo? repo.stargazers_count:memo
   }, 0)
-  return { active, isFetching, shouldStarsShown, allRepos, isFailed, maxRepoStars }
+  return { active, isFetching, shouldStarsShown, allRepos, isFailed, maxRepoStars, }
 }
 export default connect(mapStateToProps)(Repos)

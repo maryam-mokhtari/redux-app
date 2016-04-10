@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {pushState} from 'redux-router'
 import Repos from './Repos'
 import RepoDetail from './RepoDetail'
 import { setActiveRepo, loadRepos, fetchRepos, showStars, refresh } from './actions'
@@ -11,8 +12,9 @@ export default class App extends React.Component {
     super(props)
     //this.state = {}
     this.handlerRefresh = this.handlerRefresh.bind(this)
-    this.handlerLoadMore=this.handlerLoadMore.bind(this)
+    this.handlerLoadMore = this.handlerLoadMore.bind(this)
     this.handlerShowStars = this.handlerShowStars.bind(this)
+    this.handlerShowForm = this.handlerShowForm.bind(this)
   }
 
   componentDidMount() {
@@ -29,6 +31,9 @@ export default class App extends React.Component {
   handlerShowStars() {
     this.props.dispatch(showStars())
   }
+  handlerShowForm() {
+    this.props.dispatch(pushState(null, '/Form' , ''))
+  }
   render() {
     console.log("App> render> props=", this.props);
 
@@ -41,6 +46,7 @@ export default class App extends React.Component {
       <button onClick={this.handlerRefresh}>Refresh</button>
       <button onClick={this.handlerLoadMore}>Load More</button>
       <button onClick={this.handlerShowStars}>Show Stars</button>
+      <button onClick={this.handlerShowForm}>Show Form</button>
       </div>
     )
   }

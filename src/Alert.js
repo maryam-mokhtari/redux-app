@@ -5,7 +5,6 @@ const handleClick = (dispatch) => {
 }
 
 export default (props) => {
-  //return <div>alert</div>
   if (props.isNetworkFailed) {
     return <div> Network Failed <button onClick={handleClick(props.dispatch)}>X</button></div>
   }
