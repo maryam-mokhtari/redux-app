@@ -7,7 +7,7 @@ import reducer from './reducer'
 import { routes} from './Root'
 import * as ActionTypes from './actions/actionTypes'
 
-const finalCreateStore = compose(
+const enhancer = compose(
   applyMiddleware(
     apiMiddleware,
     thunk ),
@@ -15,8 +15,7 @@ const finalCreateStore = compose(
     routes,  createHistory
   }),
   window.devToolsExtension ? window.devToolsExtension() : f => f
-)(createStore);
-const store = finalCreateStore(reducer)
+);
 
 //store.subscribe(()=>{ console.log('Store changed:', store.getState()); })
 // if (localStorage.getItem('repos')) {
@@ -27,4 +26,21 @@ const store = finalCreateStore(reducer)
 //     }
 //   )
 // }
+
+function configureStore(initialState) {
+  const store = createStore(reducer, initialState, enhancer);
+
+  if(module.hot) {
+      // Enable Webpack hot module replacement for reducers
+    module.hot.accept('./reducer', () => {
+      const nextReducer = require('./reducer')
+      store.replaceReducer(nextReducer)
+    });
+  }
+
+  return store;
+}
+
+const store = configureStore({})
+
 export { store }
